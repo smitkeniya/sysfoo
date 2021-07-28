@@ -55,6 +55,22 @@ pipeline {
         }
       }
     }
+
+    stage('Deploy to Dev') {
+      agent any
+      when{
+        beforeAgent true
+        branch 'master'
+      }
+      steps {
+        script {
+          steps {
+            echo 'Deploying to Dev Compose'
+            sh 'docker-compose up -d'
+          }
+        }
+      }
+    }
   }
   tools {
     maven 'Maven 3.6.1'
