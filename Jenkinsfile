@@ -13,29 +13,32 @@ pipeline {
     }
 
     stage('test') {
-      agent {
-        docker {
-          image 'maven:3.6.3-jdk-11-slim'
-        }
-      }
+      agent any
+      // agent {
+      //   docker {
+      //     image 'maven:3.6.3-jdk-11-slim'
+      //   }
+      // }
       steps {
-        sh 'mvn clean test'
+        echo 'test'
+        // sh 'mvn clean test'
       }
     }
 
     stage('package') {
-      agent {
-        docker {
-          image 'maven:3.6.3-jdk-11-slim'
-        }
-      }
+      agent any
+      // agent {
+      //   docker {
+      //     image 'maven:3.6.3-jdk-11-slim'
+      //   }
+      // }
       when{
         branch 'master'
       }
       steps {
         echo 'Package creation started'
-        sh 'mvn package -DskipTests'
-        archiveArtifacts 'target/*.war'
+        // sh 'mvn package -DskipTests'
+        // archiveArtifacts 'target/*.war'
       }
     }
 
@@ -63,12 +66,8 @@ pipeline {
         branch 'master'
       }
       steps {
-        script {
-          steps {
-            echo 'Deploying to Dev Compose'
-            sh 'docker-compose up -d'
-          }
-        }
+        echo 'Deploying to Dev Compose'
+        sh 'docker-compose up -d'
       }
     }
   }
